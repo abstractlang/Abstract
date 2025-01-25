@@ -301,6 +301,9 @@ public class Compressor(ErrorHandler errHandler)
 
     private void AssembleCall(CodeBuilder builder, Function target, ExpressionNode[] args)
     {
+        // Generic calls should never hit here
+        if (target.IsGeneric) throw new Exception();
+
         // Check if it is a hardcoded call
         var fref = target.GlobalReference.tokens;
         if (fref[0] == "Std")
@@ -471,7 +474,6 @@ public class Compressor(ErrorHandler errHandler)
 
         else throw new NotImplementedException();
     }
-
 
     private struct Dependence((string kind, string name) identifier, ProgramMember src) {
         public string kind = identifier.kind;

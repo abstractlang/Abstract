@@ -11,6 +11,7 @@ public class FunctionCallExpressionNode : ExpressionNode
 
     // post-evaluated data
     public Function FunctionTarget { get; set; } = null!;
+    public bool HasBeenRedirected { get; set; } = false;
 
     public override string ToString() => $"{_children[0]}{_children[1]}";
 }

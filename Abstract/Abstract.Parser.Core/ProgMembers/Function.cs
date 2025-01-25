@@ -25,6 +25,8 @@ public class Function(
         .structure.GlobalReference == "Std.Types.AnyType");
     protected Dictionary<MemberIdentifier, TypeReference> _generics = [];
 
+    public bool IsAnnonymous { get; set; } = false;
+
     public void AppendGeneric(MemberIdentifier identifier, int idx)
     {
         _generics.Add(identifier, new GenericTypeReference(this, idx));
@@ -47,7 +49,7 @@ public class Function(
     }
 
     public override string ToString() => (parameters != null && returnType != null)
-        ? $"{GlobalReference}({string.Join(", ", parameters.Select(e => e.type) ?? [])}) -> {returnType}"
-        : $"{GlobalReference}({functionNode.ParameterCollection}) -> {functionNode.ReturnType}";
+        ? (IsAnnonymous ? "_!annon__" : $"{GlobalReference}"  ) + $"({string.Join(", ", parameters.Select(e => e.type) ?? [])}) -> {returnType}"
+        : (IsAnnonymous ? "_!annon__" : $"{GlobalReference}"  ) + $"({functionNode.ParameterCollection}) -> {functionNode.ReturnType}";
 
 }

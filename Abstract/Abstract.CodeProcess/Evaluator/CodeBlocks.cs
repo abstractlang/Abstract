@@ -304,10 +304,14 @@ public partial class Evaluator
                 Function func = TryGetOveloadDirect(functionGroup, [.. _args]) ??
                 throw new NoOverloadForTypes(node, string.Join(", ", _args.Select(e => e.refferToType?.ToString() ?? "!nil")));
 
-                // TODO detect the use of generic functions around here
-                if (func.IsGeneric) Console.WriteLine($"Calling generic {func.GlobalReference}");
-
-                node.FunctionTarget = func;
+                if (!func.IsGeneric)
+                    node.FunctionTarget = func;
+                else
+                {
+                    var newFunc = GenerateStaticAnnonymous(func, [.. _args]);
+                    node.FunctionTarget = newFunc;
+                    node.HasBeenRedirected = true;
+                }
                 node.DataReference = new DynamicDataRef(GetFunctionReturnType(func, [.. _args]));
             }
             else throw new ReferenceNotCallableException(node);

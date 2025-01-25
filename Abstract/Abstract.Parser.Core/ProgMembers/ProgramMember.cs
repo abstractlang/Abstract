@@ -25,6 +25,7 @@ public abstract class ProgramMember(ProgramMember? parent, MemberIdentifier iden
     public Structure[] ChildrenTypes => [.. _childrenTypes.Values];
     public Field[] ChildrenFields => [.. _childrenFields.Values];
     public Enumerator[] ChildrenEnums => [.. _childrenEnums.Values];
+    public uint AnnonCount = 0;
 
     public virtual MemberIdentifier GlobalReference
         => parent != null ? parent.GlobalReference + identifier : identifier;
